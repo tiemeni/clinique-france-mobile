@@ -99,6 +99,7 @@ const ResetPassWord = ({
 
   const handleCheck = () => {
     if (value == codeVerif?.codeVerif) {
+      console.log("verif", register);
       setBorderCol(colors.success);
       !register && setCanResetPw(true);
       register &&
