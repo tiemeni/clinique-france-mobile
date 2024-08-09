@@ -432,6 +432,7 @@ const Signup = ({ navigation, error, successRegister, codeVerifLoading }) => {
           accentColor={colors.primary}
           is24Hour={true}
           onChange={handleDateChange}
+          maximumDate={new Date()} 
         />)}
 
               {/**showDatePicker && (
