@@ -39,8 +39,8 @@ const Home = ({ loadingLocalAuth, localAuth }) => {
   return (
     <>
       {!loadingLocalAuth && !localAuth ? (
-        //renderLogin(bypassOnboarding)
-        <OnBoarding2 />
+        renderLogin(bypassOnboarding)
+       // <OnBoarding2 />
       ) : (
         <View style={{flex:1, alignItems:'center',justifyContent:'center', backgroundColor: "white"}}>
           <View space={2}>
