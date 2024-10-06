@@ -9,7 +9,7 @@ import {
   Pressable,
 } from "react-native";
 //import DateTimePickerModal from "react-native-modal-datetime-picker"
-import  DateTimePicker  from "@react-native-community/datetimepicker";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import logo from "../../../assets/img/hospi-rdv__9_-removebg-preview.png";
 import PrimaryButton from "../../../components/Buttons/PrimaryButton";
 import colors from "../../../constants/colours";
@@ -173,6 +173,7 @@ const Signup = ({ navigation, error, successRegister, codeVerifLoading }) => {
     ) {
       const emailPayload = { email: formData?.email, register: true };
       const payload = { ...formData, active: true, ...emailPayload };
+      console.log("signup payload:", payload);
       dispatch(
         processVerifCode({
           email: formData?.email,
@@ -264,7 +265,9 @@ const Signup = ({ navigation, error, successRegister, codeVerifLoading }) => {
                 outlineColor="white"
                 selectionColor="blue"
                 placeholder="Adresse mail"
-                onChangeText={(value) => handleInputChange("email", value)}
+                onChangeText={(value) =>
+                  handleInputChange("email", value.toLocaleLowerCase())
+                }
                 value={formData.email}
               />
             </View>
@@ -425,15 +428,16 @@ const Signup = ({ navigation, error, successRegister, codeVerifLoading }) => {
               </TouchableOpacity>
 
               {showDatePicker && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={moment(date, "DD/MM/YYYY").toDate()}
-          mode="date"
-          accentColor={colors.primary}
-          is24Hour={true}
-          onChange={handleDateChange}
-          maximumDate={new Date()} 
-        />)}
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={moment(date, "DD/MM/YYYY").toDate()}
+                  mode="date"
+                  accentColor={colors.primary}
+                  is24Hour={true}
+                  onChange={handleDateChange}
+                  maximumDate={new Date()}
+                />
+              )}
 
               {/**showDatePicker && (
                 <DateTimePickerModal

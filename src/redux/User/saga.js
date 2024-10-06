@@ -21,7 +21,6 @@ import { GET_ALL_PRATICIENS } from "../Praticiens/types";
 
 const _openMapKey = "5b3ce3597851110001cf624891231ecc67bc4e35a9f4b4a35b6a1f10";
 
-
 /**
  * @description user sign up.
  */
@@ -52,7 +51,7 @@ function* authRegister({ payload }) {
 }
 
 function* authUpdateInfo({ payload, _id }) {
-  const url = BASE_URL + USER_INFO_UPDATE + "/" + _id+'?module=externe';
+  const url = BASE_URL + USER_INFO_UPDATE + "/" + _id + "?module=externe";
   try {
     const result = yield patchUnauthRequest(url, payload);
     if (result.success) {
@@ -77,7 +76,7 @@ function* authUpdateInfo({ payload, _id }) {
 }
 
 function* setUserProfile({ payload, _id }) {
-  const url = BASE_URL + SET_PROFILE + _id+'?module=externe';
+  const url = BASE_URL + SET_PROFILE + _id + "?module=externe";
   const formData = new FormData();
   formData.append("photo", {
     uri: payload.uri,
@@ -87,9 +86,9 @@ function* setUserProfile({ payload, _id }) {
 
   try {
     const result = yield putRequestFormData(url, formData);
-    console.log(result)
+    console.log(result);
     if (result.success) {
-      console.log("succ upl ph")
+      console.log("succ upl ph");
       yield AsyncStorage.setItem(
         "userInfos",
         JSON.stringify({ user: result.data })
@@ -99,7 +98,7 @@ function* setUserProfile({ payload, _id }) {
         payload: { user: result.data },
       });
     } else {
-      console.log("err here")
+      console.log("err here");
       yield put({
         type: types.SET_USER_PROFIL_SUCCESS_FAILED,
         payload: result.message,
@@ -310,7 +309,7 @@ function* getDirections({ payload }) {
 }
 
 function* sendExpoToken({ payload }) {
-  console.log(payload, "payload")
+  console.log(payload, "payload");
   const url = `${BASE_URL}/users/update-push-token/${payload._id}`;
 
   try {

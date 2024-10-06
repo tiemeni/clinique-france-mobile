@@ -1,7 +1,7 @@
 export const BASE_URL = "https://clinique-france-backend-five.vercel.app";
 //export const BASE_URL = "http://192.168.43.5:3500";
 //donald serveur:
-//export const BASE_URL = "http://192.168.1.50:3500";
+//export const BASE_URL = "http://192.168.213.4:3500";
 
 const USER = "/ext_users";
 export const USER_REGISTRATION = USER + "/register";
