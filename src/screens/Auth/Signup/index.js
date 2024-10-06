@@ -266,7 +266,7 @@ const Signup = ({ navigation, error, successRegister, codeVerifLoading }) => {
                 selectionColor="blue"
                 placeholder="Adresse mail"
                 onChangeText={(value) =>
-                  handleInputChange("email", value.toLocaleLowerCase())
+                  handleInputChange("email", value.toLocaleLowerCase().trim())
                 }
                 value={formData.email}
               />
