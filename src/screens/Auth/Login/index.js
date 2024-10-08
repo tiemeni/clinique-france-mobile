@@ -93,7 +93,9 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
               outlineColor="white"
               placeholder={translate("TEXT.EMAIL_FIELD")}
               isInvalid={isFieldInError("email")}
-              onChangeText={(value) => handleInputChange("email", value.trim())}
+              onChangeText={(value) =>
+                handleInputChange("email", value.trim().toLocaleLowerCase())
+              }
               value={formData.email}
             />
           </View>
@@ -124,7 +126,7 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
                   style={{
                     fontSize: 12,
                     color: colors.danger,
-                    marginLeft:5
+                    marginLeft: 5,
                   }}
                 >
                   Mauvais format d'e-mail
@@ -181,7 +183,7 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
           </View>
         </View>
 
-        <Pressable style={{marginTop:15, marginBottom:15}}>
+        <Pressable style={{ marginTop: 15, marginBottom: 15 }}>
           <Text
             onPress={() =>
               navigation.navigate(SCREENS.PHONE_CONFIRMATION_SCREEN)
@@ -219,7 +221,7 @@ const Login = ({ navigation, error, loading, errorMsg, success }) => {
         <View
           style={{
             ...styles.cguBox,
-            marginTop:15,
+            marginTop: 15,
             justifyContent: "center",
             alignContent: "center",
             width: "100%",
