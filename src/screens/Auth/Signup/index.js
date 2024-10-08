@@ -17,7 +17,11 @@ import styles from "./styles";
 import moment from "moment";
 import * as SCREENS from "../../../constants/screens";
 import { useDispatch, connect } from "react-redux";
-import { reinitialize, processVerifCode } from "../../../redux/User/action";
+import {
+  reinitialize,
+  processVerifCode,
+  userRegistration,
+} from "../../../redux/User/action";
 import { isValidEmail } from "../../../utils/helper";
 import {
   Calendar,
@@ -174,13 +178,15 @@ const Signup = ({ navigation, error, successRegister, codeVerifLoading }) => {
       const emailPayload = { email: formData?.email, register: true };
       const payload = { ...formData, active: true, ...emailPayload };
       console.log("signup payload:", payload);
-      dispatch(
-        processVerifCode({
-          email: formData?.email,
-          register: true,
-          formData: payload,
-        })
-      );
+      // dispatch(
+      //   processVerifCode({
+      //     email: formData?.email,
+      //     register: true,
+      //     formData: payload,
+      //   })
+      // );
+
+      dispatch(userRegistration({ ...payload }));
     } else {
     }
   };
