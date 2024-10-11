@@ -79,6 +79,7 @@ export const GlobalSearch = ({ navigation }) => {
           alignItems: "center",
           padding: 10,
           gap: 10,
+          marginTop: 30,
         }}
       >
         <ArrowLeft

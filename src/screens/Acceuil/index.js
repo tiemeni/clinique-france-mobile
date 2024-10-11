@@ -4,7 +4,7 @@ import { specialites, practiciens } from "../../utils/helper";
 import colors from "../../constants/colours";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { getProfession } from "../../redux/professions/actions";
-import { clearCache } from "../../redux/RDV/actions";
+import { clearCache, getDispo, getMotifs } from "../../redux/RDV/actions";
 import { sendExpoToken, getAdressesFromCoords } from "../../redux/User/action";
 import * as SCREENS from "../../constants/screens";
 import { getAllPrats } from "../../redux/Praticiens/actions";
@@ -280,7 +280,23 @@ const Acceuil = ({
               <>
                 {props.praticiens.slice(0, 5).map((item, index) => {
                   return (
-                    <Pressable key={item._id}>
+                    <Pressable
+                      key={item._id}
+                      onPress={() => {
+                        dispatch(
+                          getDispo({
+                            idCentre: item?.idCentre,
+                            idp: item?._id,
+                          })
+                        );
+                        dispatch(
+                          getMotifs({ id: item?.job?._id, forSpec: true })
+                        );
+                        navigation.navigate(SCREENS.DETAILS_PRATICIEN, {
+                          praticien: item,
+                        });
+                      }}
+                    >
                       <DoctorCard
                         speciality={item?.job?.title}
                         nom_complet={item.name + " " + item.surname}
