@@ -23,22 +23,13 @@ import { useNavigation } from "@react-navigation/native";
 const _spacing = 3;
 
 export const DetailsPraticien = ({ route, navigation }) => {
-  const { praticien } = route.params;
-  console.log("Route params praticien:", praticien); // Vérifie si le praticien est bien passé dans les params
-
-  const actualPraticien = praticien;
+  const actualPraticien = route.params.praticien;
   const dispatch = useDispatch();
   const user = useSelector((state) => state.UserReducer.userInfos);
-  console.log("User infos:", user); // Affiche les informations de l'utilisateur actuel
-
   const [actualCreaneau, setActualCreaneau] = useState([]);
   const motifs = useSelector((state) => state.RdvForm.motifs);
-  console.log("Motifs disponibles:", motifs); // Affiche les motifs de rendez-vous
-
-  const [itemSelected, setItemSelected] = useState(motifs[0]); // Initialisation de l'item sélectionné à partir du premier motif
+  const [itemSelected, setItemSelected] = useState(motifs[0]);
   const dispo = useSelector((state) => state.RdvForm.dispo);
-  console.log("Disponibilités disponibles:", dispo); // Affiche les disponibilités pour le praticien
-
   const scrollViewRef = React.useRef();
   const [shouldScroll, setShouldScroll] = useState(false);
   const successPostRdv = useSelector((state) => state.RdvForm.successPostRdv);
@@ -46,22 +37,15 @@ export const DetailsPraticien = ({ route, navigation }) => {
   const loadingPostRdv = useSelector((state) => state.RdvForm.loadingPostRdv);
   const dispoLoading = useSelector((state) => state.RdvForm.dispoLoading);
   const motifsLoading = useSelector((state) => state.RdvForm.motifsLoading);
-
   const [selectedDat, setSelectedDay] = useState(generateKeyTab(dispo)[0]);
-  console.log("Date sélectionnée:", selectedDat); // Vérifie la première date sélectionnée
-
   const [selectedCreneau, setSelectedCreneau] = useState(
     generateValuesTab(generateKeyTab(dispo)[0], dispo)
   );
-  console.log("Créneau sélectionné:", selectedCreneau); // Vérifie le créneau sélectionné pour le rendez-vous
-
   const [selectedCreaneauWhole, setSelectedCreneauWhole] = useState({});
   const [selectedClinic, setSelectedClinic] = useState(
-    actualPraticien?.affectation?.[0] || null
+    actualPraticien?.affectation[0]
   );
-  console.log("Clinique sélectionnée:", selectedClinic); // Vérifie la clinique sélectionnée
 
-  // Effect pour charger les motifs et disponibilités après le montage du composant
   useEffect(() => {
     dispatch(
       getDispo({
@@ -70,41 +54,29 @@ export const DetailsPraticien = ({ route, navigation }) => {
       })
     );
     dispatch(getMotifs({ id: actualPraticien?.job?._id, forSpec: true }));
-
     setTimeout(() => {
-      setSelectedClinic(actualPraticien?.affectation?.[0] || null);
+      setSelectedClinic(actualPraticien?.affectation[0]);
       setSelectedDay(generateKeyTab(dispo)[0]);
       setActualCreaneau(generateValuesTab(generateKeyTab(dispo)[0], dispo));
       setItemSelected(motifs[0]);
-
-      // Logs après la mise à jour des valeurs après 3 secondes
-      console.log("Clinique après update:", selectedClinic);
-      console.log("Jour sélectionné après update:", selectedDat);
-      console.log("Créneau mis à jour:", actualCreaneau);
-      console.log("Motif sélectionné après update:", itemSelected);
     }, 3000);
   }, []);
 
-  // Fonction pour scroller jusqu'en bas de la page
   const scrollToBottom = () => {
     scrollViewRef.current.scrollToEnd({ animated: true });
   };
 
-  // Vérification que tous les champs nécessaires pour un RDV sont remplis
   const allFieldFilled = () => {
-    const allFilled =
-      // selectedClinic?._id &&
+    return (
+      selectedClinic?._id &&
       actualPraticien?._id &&
       selectedCreneau &&
       selectedDat &&
       itemSelected?.default_time &&
-      selectedCreaneauWhole?.date_long;
-
-    console.log("Tous les champs sont remplis ?", allFilled); // Log pour vérifier si tous les champs requis sont remplis
-    return allFilled;
+      selectedCreaneauWhole?.date_long
+    );
   };
 
-  // Fonction pour envoyer les données de rendez-vous
   const handlePostRdv = () => {
     const data1 = {
       idCentre: actualPraticien?.idCentre,
@@ -118,10 +90,7 @@ export const DetailsPraticien = ({ route, navigation }) => {
       duration_rdv: itemSelected?.default_time,
       date_long: selectedCreaneauWhole?.date_long,
     };
-
     const data = { ...data1, ...user };
-    console.log("Données pour le rendez-vous:", data); // Log pour afficher les données du RDV avant l'envoi
-
     dispatch(saveExtPRData(data));
     navigation.navigate(SCREENS.PAYMENT, { ext: true });
   };
